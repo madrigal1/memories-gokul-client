@@ -1,45 +1,32 @@
 import React,{useEffect} from 'react'
-import {Container,AppBar,Typography,Row,Grid,Grow} from '@material-ui/core'
-import memories from './images/memories.png'
+import {Container,Grid,Grow} from '@material-ui/core'
 
-import Posts from './components/Posts/posts'
-import Form from './components/Form/form.js'
 
-import useStyles from './styles.js'
-import {useState} from 'react'
-import {useDispatch} from 'react-redux'
 
-import {getPosts} from './actions/posts.js'
+
+import useStyles from './components/Home/styles.js'
+
+import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
+
 
 import  './index.css'
+import Navbar from './components/Navbar/navbar'
+import Home from './components/Home/home.js'
+import Auth from './components/Auth/Auth.js'
 
 const App = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const [currentId,setCurrentId] = useState(null);
-
-    useEffect(()=>{
-        dispatch(getPosts());
-    },[dispatch]);
+   
+   
     return (
-        <Container maxWidth="lg">
-            <AppBar className={classes.appBar} position="static" color="inherit">
-                <Typography className={classes.heading} vairant="h2" align="center">Memories</Typography>
-                <img className={classes.image} src={memories} alt="memories" height="60"/>
-            </AppBar>
-            <Grow in>
-                <Container>
-                    <Grid className={classes.mainContainer} container justify="space-between" alignItem="strech" spacing="3">
-                        <Grid item xs={12} sm={7}>
-                            <Posts setCurrentId={setCurrentId}/>
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <Form currentId={currentId} setCurrentId={setCurrentId}/>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </Grow>
-        </Container>
+        <Router>
+            <Navbar/>
+            <Container maxWidth="lg">
+                <Switch>
+                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/auth" component={Auth}/>
+                </Switch>
+            </Container>
+        </Router>
     )
 }
 
